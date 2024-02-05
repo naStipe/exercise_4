@@ -1,5 +1,6 @@
 import {Outlet, Link, useLoaderData, Form, redirect, NavLink, useNavigation, } from "react-router-dom";
 import { getContacts, createContact } from "../contacts";
+import { useEffect } from "react";
 
 export async function action() {
     const contact = await createContact();
@@ -17,6 +18,11 @@ export async function loader({ request }){
 export default function Root() {
     const { contacts, q } = useLoaderData();
     const navigation = useNavigation();
+
+    useEffect(() => {
+        document.getElementsById("q").value = q;
+    }, [q]);
+
     return (
         <>
             <div id="sidebar">
@@ -29,7 +35,7 @@ export default function Root() {
                             placeholder="Search"
                             type="search"
                             name="q"
-                            defaultValue="q"
+                            defaultValue={q}
                         />
                         <div
                             id="search-spinner"
